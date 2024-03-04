@@ -10,5 +10,6 @@ class HomeController extends Controller
     public function index()
     {
         $visits=PageVisit::all();
+        return view('home', ['visits' => $visits]);
     }
 }
