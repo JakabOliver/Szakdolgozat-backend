@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
         $visits=PageVisit::all();
-        return view('home', ['visits' => $visits]);
+        return view('dashboard', ['visits' => $visits]);
     }
 }
