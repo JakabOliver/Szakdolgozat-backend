@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\PageVisit;
 use Illuminate\Http\Request;
 
