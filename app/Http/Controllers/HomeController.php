@@ -10,6 +10,7 @@ class HomeController extends Controller
     public function dashboard()
     {
         $visits=PageVisit::all();
-        return view('dashboard', ['visits' => $visits]);
+        $events= Event::all();
+        return view('dashboard', ['visits' => $visits, 'events'=>$events]);
     }
 }

@@ -23,6 +23,9 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('/log/page-visited', [LoggerController::class, 'pageVisited']);
+Route::post('/log/event', [LoggerController::class, 'event']);
+
+Route::get('visits', [VisitController::class, 'index'])->name('visits.index');
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 

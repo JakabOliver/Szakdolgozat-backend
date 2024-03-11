@@ -20,6 +20,9 @@
                         @foreach($visits as $visit)
                             <x-log-entity :page="$visit->page" :date="$visit->created_at"></x-log-entity>
                         @endforeach
+                        @foreach($events as $event)
+                            <x-log-entity :page="$event->name" :date="$event->attributes"></x-log-entity>
+                        @endforeach
 
                         </tbody>
                     </table>
