@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\ProfileController;
@@ -29,7 +30,7 @@ Route::post('/log/event', [LoggerController::class, 'event']);
 
 Route::resource('visit', VisitController::class);
 Route::resource('user', TrackedUserController::class);
-Route::resource('event', \App\Http\Controllers\EventController::class);
+Route::resource('event', EventController::class);
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 

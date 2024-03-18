@@ -14,4 +14,8 @@ class VisitController extends Controller
         return view('visit.index', ['visits' => $visits]);
     }
 
+    public function show(PageVisit $visit): View{
+        return view('visit.show', ['visit'=>$visit]);
+    }
+
 }

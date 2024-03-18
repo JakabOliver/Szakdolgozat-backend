@@ -13,4 +13,8 @@ class TrackedUserController extends Controller
         $users = TrackedUser::all();
         return view('user.index', ['users' => $users]);
     }
+
+    public function show(TrackedUser $user): View{
+        return view('user.show', ['user'=>$user]);
+    }
 }
