@@ -11,8 +11,11 @@ class TrackedUser extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['id'];
+    protected $fillable = ['id', 'attributes'];
     protected $primaryKey = 'id';
+    protected $casts = [
+        'custom_attributes' => 'array',
+    ];
 
     public $incrementing = false;
 
@@ -26,5 +29,10 @@ class TrackedUser extends Model
     public function pageVisits(): HasMany
     {
         return $this->hasMany(PageVisit::class, 'user_id');
+    }
+
+    public function updateAtributes(array $newAttributes)
+    {
+        $this->custom_attributes = array_merge($this->custom_attributes ?? [], $newAttributes);
     }
 }

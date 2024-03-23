@@ -13,10 +13,14 @@ class LoggerController extends Controller
     public function pageVisited(Request $request): JsonResponse
     {
         $requestData = $request->validate([
-            'data'    => 'required',
-            'user_id' => 'nullable'
+            'data'      => 'required',
+            'user_id'   => 'nullable',
+            'user_data' => 'nullable'
         ]);
+        //when the user_id doesn't yet exists a get a 500 on the save later.
         $user = TrackedUser::firstOrCreate(['id' => $requestData['user_id']]);
+        $user->updateAtributes($requestData['user_data']);
+        $user->save();
         $data = $requestData['data'];
         $this->logRequest($requestData);
         PageVisit::create(['page' => $data['path'], 'user_id' => $requestData['user_id']]);
