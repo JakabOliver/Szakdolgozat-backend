@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\PageVisit;
 use App\Models\TrackedUser;
+use GeoIp2\Database\Reader;
+use GeoIp2\Exception\AddressNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 
 class LoggerController extends Controller
 {
@@ -14,17 +18,21 @@ class LoggerController extends Controller
     {
         $requestData = $request->validate([
             'data'         => 'required|array',
-            'user_id'      => 'nullable|string',
+            'user_id'      => 'nullable',
             'user_data'    => 'nullable|array',
             'browser_data' => 'nullable|array',
         ]);
         $this->logRequest($requestData);
         $this->storeUserData($requestData['user_id'], $requestData['user_data']);
+        $ip = $request->ip();
+        $country = $this->getCountry($ip);
 
         PageVisit::create([
             'page'         => $requestData['data']['path'],
             'user_id'      => $requestData['user_id'],
-            'browser_info' => $requestData['browser_data']
+            'browser_info' => $requestData['browser_data'],
+            'ip_address'   => $ip,
+            'country'      => $country,
         ]);
         return response()->json(['saved']);
     }
@@ -39,12 +47,16 @@ class LoggerController extends Controller
         ]);
         $this->logRequest($requestData);
         $this->storeUserData($requestData['user_id'], $requestData['user_data']);
+        $ip = $request->ip();
+        $country = $this->getCountry($ip);
 
         Event::create([
             'name'         => $requestData['data']['name'],
             'attributes'   => json_encode($requestData['data']['attributes']),
             'user_id'      => $requestData['user_id'],
-            'browser_info' => $requestData['browser_data']
+            'browser_info' => $requestData['browser_data'],
+            'ip_address'   => $ip,
+            'country'      => $country,
         ]);
         return response()->json(['saved']);
     }
@@ -70,6 +82,19 @@ class LoggerController extends Controller
         $user->updateAtributes($userData);
         $user->save();
     }
+
+    private function getCountry(string $ip): string
+    {
+        try {
+            $reader = new Reader(config('services.geoip2.database_path'));
+            $record = $reader->country($ip);
+        } catch (AddressNotFoundException|InvalidDatabaseException $e) {
+            Log::error('country not found for IP address' . $ip, [$e]);
+            return '';
+        }
+        return $record->country->name;
+    }
+
 }
 
 

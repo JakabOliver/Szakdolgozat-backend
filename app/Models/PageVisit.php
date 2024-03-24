@@ -10,7 +10,7 @@ class PageVisit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['page', 'user_id', 'browser_info'];
+    protected $fillable = ['page', 'user_id', 'browser_info', 'ip_address', 'country'];
     protected $casts = [
         'browser_info' => 'array',
     ];

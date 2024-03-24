@@ -30,5 +30,8 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'geoip2' => [
+        'database_path' => env('GEOIP2_DATABASE_PATH', storage_path('app/GeoLite2-Country.mmdb')),
+    ],
 
 ];
