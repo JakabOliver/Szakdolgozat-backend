@@ -10,7 +10,10 @@ class PageVisit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['page', 'user_id'];
+    protected $fillable = ['page', 'user_id', 'browser_info'];
+    protected $casts = [
+        'browser_info' => 'array',
+    ];
 
     public function user(): BelongsTo
     {

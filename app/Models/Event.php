@@ -9,5 +9,8 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'attributes', 'user_id'];
+    protected $fillable = ['name', 'attributes', 'user_id', 'browser_info'];
+    protected $casts = [
+        'browser_info' => 'array',
+    ];
 }
