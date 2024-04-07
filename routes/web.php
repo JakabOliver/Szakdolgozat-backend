@@ -32,6 +32,8 @@ Route::resource('visit', VisitController::class);
 Route::resource('user', TrackedUserController::class);
 Route::resource('event', EventController::class);
 
+Route::post('visit/list', [VisitController::class, 'list'])->name('visit.list');
+
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

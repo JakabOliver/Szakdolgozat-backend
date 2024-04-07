@@ -21,6 +21,11 @@ class TrackedUser extends Model
 
     protected $keyType = 'string';
 
+    public static function getDistinct()
+    {
+        return self::distinct()->get(['id'])->pluck('id')->toArray();
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class, 'user_id');
