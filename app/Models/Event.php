@@ -14,6 +14,7 @@ class Event extends Model
     protected $casts = [
         'browser_info' => 'array',
         'created_at' => 'datetime:Y-m-d H:i:s',
+        'attributes'=> 'json'
     ];
 
     public static function getDistinctNames()

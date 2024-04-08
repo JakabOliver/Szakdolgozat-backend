@@ -17,10 +17,10 @@ class LoggerController extends Controller
     public function pageVisited(Request $request): JsonResponse
     {
         $requestData = $request->validate([
-            'data'         => 'required|array',
-            'user_id'      => 'nullable',
-            'user_data'    => 'nullable|array',
-            'browser_data' => 'nullable|array',
+            'data'               => 'required|array',
+            'user_id'            => 'nullable',
+            'user_data'          => 'nullable|array',
+            'browser_data'       => 'nullable|array',
         ]);
         $this->logRequest($requestData);
         $this->storeUserData($requestData['user_id'], $requestData['user_data']);
@@ -40,19 +40,21 @@ class LoggerController extends Controller
     public function event(Request $request)
     {
         $requestData = $request->validate([
-            'data'         => 'required',
-            'user_id'      => 'nullable',
-            'user_data'    => 'nullable',
-            'browser_data' => 'nullable',
+            'data'               => 'required',
+            'user_id'            => 'nullable',
+            'user_data'          => 'nullable',
+            'generic_attributes' => 'nullable|array',
+            'browser_data'       => 'nullable',
         ]);
         $this->logRequest($requestData);
         $this->storeUserData($requestData['user_id'], $requestData['user_data']);
+        $attributes = array_merge($requestData['data']['attributes'], $requestData['generic_attributes']);
         $ip = $request->ip();
         $country = $this->getCountry($ip);
 
         Event::create([
             'name'         => $requestData['data']['name'],
-            'attributes'   => json_encode($requestData['data']['attributes']),
+            'attributes'   => $attributes,
             'user_id'      => $requestData['user_id'],
             'browser_info' => $requestData['browser_data'],
             'ip_address'   => $ip,
