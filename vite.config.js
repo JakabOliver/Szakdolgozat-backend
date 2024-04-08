@@ -7,7 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/page_visits.js', // Include the new file here
+                'resources/js/page_visits.js',
+                'resources/js/events.js',
             ],
             refresh: true,
         }),

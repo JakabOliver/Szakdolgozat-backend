@@ -33,6 +33,7 @@ Route::resource('user', TrackedUserController::class);
 Route::resource('event', EventController::class);
 
 Route::post('visit/list', [VisitController::class, 'list'])->name('visit.list');
+Route::post('event/list', [EventController::class, 'list'])->name('event.list');
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 

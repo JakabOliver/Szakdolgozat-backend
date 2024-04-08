@@ -1,3 +1,5 @@
+import {fetchData} from "./fetchHelper.js";
+
 const SELECTORS = {
     DATE_FROM: 'date_from',
     DATE_TO: 'date_to',
@@ -23,9 +25,10 @@ function getFilterData() {
 }
 
 function buildData(data) {
+    const visits = data.visits;
     const container = document.getElementById(SELECTORS.VISITS);
     container.innerHTML = '';
-    data.forEach(function (visit) {
+    visits.forEach(function (visit) {
         // Create a new section element
         const section = document.createElement('section');
         section.classList.add('my-2', 'grid', 'grid-cols-3', 'gap-2');
@@ -53,34 +56,22 @@ function buildData(data) {
     });
 }
 
-function fetchData() {
+function getData() {
     const filter = getFilterData();
     const limit = document.getElementById(SELECTORS.LIMIT).value;
     const sort = undefined;
-    fetch('/visit/list', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            filter, limit, sort
-        })
-    }).then(function (response) {
-        return response.json();
-    }).then(function (response) {
-        const visits = response.visits;
-        buildData(visits);
-    })
+    const link = '/visit/list';
+    const data ={filter, limit, sort};
+    fetchData(link, 'POST', data, buildData);
 
 }
 
 function init() {
-    fetchData()
+    getData()
     document.getElementById(SELECTORS.APPLY).addEventListener('click', function () {
-        fetchData()
+        getData()
     });
     document.getElementById(SELECTORS.LIMIT).addEventListener('input', function () {
-        fetchData()
+        getData()
     });
 }
