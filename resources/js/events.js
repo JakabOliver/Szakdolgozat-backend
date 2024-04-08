@@ -57,14 +57,17 @@ function buildData(data) {
 
         // Create and populate the divs inside the section
         const dateDiv = document.createElement('div');
-        dateDiv.textContent = event.created_at;
+        const dateLink = document.createElement('a');
+        dateLink.href = `event/${event.id}`;
+        dateLink.textContent = event.created_at;
+        dateDiv.appendChild(dateLink);
 
         const eventDiv = document.createElement('div');
         eventDiv.textContent = event.name;
 
         const userDiv = document.createElement('div');
         const userLink = document.createElement('a');
-        userLink.href = `user/${event.user_id}`; // Assuming the route is user/show/{user_id}
+        userLink.href = `user/${event.user_id}`;
         userLink.textContent = event.user_id;
         userDiv.appendChild(userLink);
 

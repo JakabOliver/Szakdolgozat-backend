@@ -11,10 +11,19 @@
                 <div class="p-6 text-gray-900">
                    <p>
                        {{$visit->page}}
-
-                       User: <a href="{{route('user.show', $visit->user_id)}}">{{$visit->user_id}}</a>
                    </p>
-
+                    <p>
+                        Date: {{$visit->created_at->format('Y-m-d')}}
+                    </p>
+                    <p>
+                        User: <a href="{{route('user.show', $visit->user_id)}}">{{$visit->user_id}}</a>
+                    </p>
+                    <p>IP address: {{$visit->ip_address}}</p>
+                    <p>Country: {{$visit->country}}</p>
+                    Browser info:
+                    @foreach($visit->browser_info as $key => $value)
+                        <p>{{$key}}: {{$value}}</p>
+                    @endforeach
                 </div>
             </div>
         </div>

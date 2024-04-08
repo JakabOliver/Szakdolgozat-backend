@@ -35,7 +35,10 @@ function buildData(data) {
 
         // Create and populate the divs inside the section
         const dateDiv = document.createElement('div');
-        dateDiv.textContent = visit.created_at;
+        const dateLink = document.createElement('a');
+        dateLink.href = `visit/${visit.id}`;
+        dateLink.textContent = visit.created_at;
+        dateDiv.appendChild(dateLink);
 
         const pageDiv = document.createElement('div');
         pageDiv.textContent = visit.page;
