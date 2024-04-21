@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Event extends Model
 {
@@ -13,8 +15,8 @@ class Event extends Model
     protected $fillable = ['name', 'attributes', 'user_id', 'browser_info', 'ip_address', 'country'];
     protected $casts = [
         'browser_info' => 'array',
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'attributes'=> 'json'
+        'created_at'   => 'datetime:Y-m-d H:i:s',
+        'attributes'   => 'json'
     ];
 
     public static function getDistinctNames()
@@ -38,5 +40,13 @@ class Event extends Model
             $query->where('user_id', $filter->user);
         }
         return $query->limit($limit)->get();
+    }
+
+    public static function getCountForPathMonth()
+    {
+        $query = self::where('created_at', '>=', Carbon::now()->subDays(30))
+            ->select(['name', DB::raw('count(*) as count')])
+            ->groupBy('name');
+        return $query->get();
     }
 }

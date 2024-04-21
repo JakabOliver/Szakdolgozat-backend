@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/page_visits.js',
                 'resources/js/events.js',
+                'resources/js/dashboard.js',
             ],
             refresh: true,
         }),

@@ -3,15 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\PageVisit;
-use Illuminate\Http\Request;
+use App\Models\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function dashboard()
+    public function dashboard(): View
     {
-        $visits=PageVisit::all();
-        $events= Event::all();
-        return view('dashboard', ['visits' => $visits, 'events'=>$events]);
+        return view('dashboard', []);
+    }
+
+
+    public function chart($type): JsonResponse
+    {
+        $data = [];
+        switch ($type) {
+            case 'requests':
+                $data = Request::getForLastSevenDaysGrouped();
+                break;
+            case 'events':
+                $data = Event::getCountForPathMonth();
+                break;
+        }
+        return response()->json($data);
     }
 }
