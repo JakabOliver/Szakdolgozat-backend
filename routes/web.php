@@ -26,8 +26,8 @@ Route::get('/', function () {
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::post('/log/page-visited', [LoggerController::class, 'pageVisited']);
-Route::post('/log/event', [LoggerController::class, 'event']);
+Route::post('/log/page-visited', [LoggerController::class, 'pageVisited'])->middleware('tokenvalid');
+Route::post('/log/event', [LoggerController::class, 'event'])->middleware('tokenvalid');
 
 Route::resource('visit', VisitController::class);
 Route::resource('TrackedUser', TrackedUserController::class);
