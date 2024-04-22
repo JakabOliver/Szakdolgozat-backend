@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrackedUserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,7 @@ Route::post('/log/page-visited', [LoggerController::class, 'pageVisited']);
 Route::post('/log/event', [LoggerController::class, 'event']);
 
 Route::resource('visit', VisitController::class);
-Route::resource('user', TrackedUserController::class);
+Route::resource('TrackedUser', TrackedUserController::class);
 Route::resource('event', EventController::class);
 
 Route::post('visit/list', [VisitController::class, 'list'])->name('visit.list');
@@ -39,6 +40,7 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['aut
 Route::get('/dashboard/chart/{type}', [HomeController::class, 'chart'])->middleware(['auth'])->name('dashboard.chart');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('user', UserController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

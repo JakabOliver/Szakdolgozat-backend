@@ -16,7 +16,7 @@
                         Date: {{$visit->created_at->format('Y-m-d')}}
                     </p>
                     <p>
-                        User: <a href="{{route('user.show', $visit->user_id)}}">{{$visit->user_id}}</a>
+                        User: <a href="{{route('TrackedUser.show', $visit->user_id)}}">{{$visit->user_id}}</a>
                     </p>
                     <p>IP address: {{$visit->ip_address}}</p>
                     <p>Country: {{$visit->country}}</p>

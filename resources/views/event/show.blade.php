@@ -16,7 +16,7 @@
                         Date: {{$event->created_at->format('Y-m-d')}}
                     </p>
                     <p>
-                        User: <a href="{{route('user.show', $event->user_id)}}">{{$event->user_id}}</a>
+                        User: <a href="{{route('TrackedUser.show', $event->user_id)}}">{{$event->user_id}}</a>
                     </p>
                     @foreach($event->attributes as $key => $value)
                         <p>{{$key}}: {{$value}}</p>

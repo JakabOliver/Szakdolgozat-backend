@@ -27,7 +27,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                    <x-nav-link :href="route('TrackedUser.index')" :active="request()->routeIs('user.index')">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
@@ -49,6 +49,9 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('user.index')">
+                            {{ __('Users') }}
+                        </x-dropdown-link>
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
