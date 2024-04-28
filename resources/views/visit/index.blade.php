@@ -14,10 +14,10 @@
                     <div class="grid grid-cols-9 gap-4 gap-6">
                         <div class="col-span-2">
                             <label for="date_from" class="block my-2 flex justify-between">
-                              <span>  From</span>
+                                <span>  From</span>
                                 <input type="date" name="from" id="date_from" class="rounded">
                             </label>
-                                <label for="date_to" class="block my-2 flex justify-between">
+                            <label for="date_to" class="block my-2 flex justify-between">
                                 To
                                 <input type="date" name="to" id="date_to" class="rounded">
                             </label>
@@ -36,17 +36,17 @@
                             </div>
                         </div>
                         <div class="col-span-3 flex-col">
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="user">
-                                User
-                            </label>
-                            <select name="user" id="user" class="rounded w-full">
-                                <option value="">All</option>
-                                @foreach($users as $user)
-                                    <option value="{{$user}}">{{$user}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="user">
+                                    User
+                                </label>
+                                <select name="user" id="user" class="rounded w-full">
+                                    <option value="">All</option>
+                                    @foreach($users as $user)
+                                        <option value="{{$user}}">{{$user}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div>
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
