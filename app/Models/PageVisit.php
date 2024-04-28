@@ -37,6 +37,7 @@ class PageVisit extends Model
         if ($filter->user) {
             $query->where('user_id', $filter->user);
         }
+        $query->orderBy('created_at', 'desc');
         return $query->limit($limit)->get();
 
     }
