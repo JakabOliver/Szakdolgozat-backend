@@ -14,8 +14,8 @@ class TrackedUserController extends Controller
         return view('user.index', ['users' => $users]);
     }
 
-    public function show(TrackedUser $trackedUser): View
+    public function show(TrackedUser $TrackedUser): View
     {
-        return view('user.show', ['user' => $trackedUser]);
+        return view('user.show', ['user' => $TrackedUser]);
     }
 }

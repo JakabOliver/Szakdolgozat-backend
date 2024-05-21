@@ -13,12 +13,12 @@ class Request extends Model
 
     protected $fillable = ['data'];
 
-    public static function getForLastSevenDaysGrouped(): array
+    public static function getForLastDaysGrouped(int $range = 7): array
     {
-        for ($i = 6; $i >= 0; $i--) {
+        for ($i = ($range-1); $i >= 0; $i--) {
             $result[] = ['date' => date("Y-m-d", strtotime("-$i days")), 'count' => '0'];
         }
-        $query = self::where('created_at', '>=', Carbon::now()->subDays(7))
+        $query = self::where('created_at', '>=', Carbon::now()->subDays($range))
             ->select([DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count')])
             ->groupBy('date');
         foreach ($query->get() as $row) {

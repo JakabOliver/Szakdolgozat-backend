@@ -1,0 +1,10 @@
+.selectors {
+    .option {
+        cursor: pointer;
+        &.active {
+            border-width: 0.25rem;
+            border-color: coral;
+            color: coral;
+        }
+    }
+}

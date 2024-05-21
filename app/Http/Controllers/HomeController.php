@@ -15,15 +15,15 @@ class HomeController extends Controller
     }
 
 
-    public function chart($type): JsonResponse
+    public function chart(string $type, int $range = null): JsonResponse
     {
         $data = [];
         switch ($type) {
             case 'requests':
-                $data = Request::getForLastSevenDaysGrouped();
+                $data = Request::getForLastDaysGrouped($range);
                 break;
             case 'events':
-                $data = Event::getCountForPathMonth();
+                $data = Event::getCountForPastMonth($range);
                 break;
         }
         return response()->json($data);

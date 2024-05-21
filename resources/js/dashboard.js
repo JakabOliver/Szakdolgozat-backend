@@ -2,16 +2,52 @@ import {Chart, registerables} from 'chart.js';
 import {fetchData} from "./fetchHelper.js";
 
 Chart.register(...registerables);
+const charts = {
+    'requests': null,
+    'events': null
+}
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener('DOMContentLoaded', (event) => {
+    const requestChartOptions = document.querySelectorAll('.requests-chart .selectors .option');
+    const eventsChartOptions = document.querySelectorAll('.events-chart .selectors .option');
+
+    requestChartOptions.forEach((element)  =>  {
+        element.addEventListener('click', requestChartOptionClicked.bind(null, requestChartOptions));
+    });
+    eventsChartOptions.forEach((element) => {
+        element.addEventListener('click', eventChartOptionClicked.bind(null, eventsChartOptions));
+    });
     init();
 });
 
 
 function init() {
-    fetchData('/dashboard/chart/requests', 'GET', null, drawRequestsChart);
-    fetchData('/dashboard/chart/events', 'GET', null, drawEventsChart);
+    loadRequests();
+    loadEvents();
 }
+
+const requestChartOptionClicked = (requestChartOptions, event) => {
+    requestChartOptions.forEach((el) => el.classList.remove('active'));
+    event.target.classList.add('active');
+    const range = event.target.getAttribute('data-value');
+    loadRequests(range);
+};
+
+const eventChartOptionClicked = (eventsChartOptions, event) => {
+    eventsChartOptions.forEach((el) => el.classList.remove('active'));
+    event.target.classList.add('active');
+    const range = event.target.getAttribute('data-value');
+    loadEvents(range);
+};
+
+const loadRequests = (range = 7) => {
+    const url = '/dashboard/chart/requests/' + range;
+    fetchData(url, 'GET', null, drawRequestsChart);
+};
+const loadEvents = (range = 1) => {
+    const url = '/dashboard/chart/events/' + range;
+    fetchData(url, 'GET', null, drawEventsChart);
+};
 
 function log(data) {
     console.log(data);
@@ -27,7 +63,7 @@ function drawRequestsChart(input) {
         data.datasets[0].data.push(element.count);
     });
 
-    drawChart(ctx, 'line', data);
+    charts.requests = drawChart(ctx, charts.requests, 'line', data);
 }
 
 
@@ -40,11 +76,12 @@ function drawEventsChart(input) {
         data.datasets[0].data.push(element.count);
     });
 
-    drawChart(ctx, 'bar', data);
+    charts.events = drawChart(ctx, charts.events, 'bar', data);
 }
 
-function drawChart(ctx, type, data) {
-    new Chart(ctx, {
+function drawChart(ctx, chart, type, data) {
+    if (chart !== null) chart.destroy();
+    return new Chart(ctx, {
         type: type,
         data: data,
         options: {
