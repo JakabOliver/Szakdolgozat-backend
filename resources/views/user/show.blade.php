@@ -18,7 +18,11 @@
                         <a href="{{route('event.show', $event->id)}}">
                             <p>{{$event->name}}
                                 @if(empty($event->attributes) === false)
-                                    <small>{{$event->attributes}}</small>
+                                    <small>
+                                    @foreach($event->attributes as $key=>$value)
+                                       {{$key}}:{{$value}}
+                                    @endforeach
+                                    </small>
                                 @endif
                             </p>
                         </a>

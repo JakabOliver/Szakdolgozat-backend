@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PageVisit extends Model
 {
@@ -40,6 +42,23 @@ class PageVisit extends Model
         $query->orderBy('created_at', 'desc');
         return $query->limit($limit)->get();
 
+    }
+
+    public static function getCountByTypeForPastSevenDays(?string $page)
+    {
+
+        for ($i = (6); $i >= 0; $i--) {
+            $result[] = ['date' => date("Y-m-d", strtotime("-$i days")), 'count' => '0'];
+        }
+        $query = self::where('created_at', '>=', Carbon::now()->subDays(7))
+            ->select([DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count')])
+            ->where('page', '=', '/'.$page)
+            ->groupBy('date');
+        foreach ($query->get() as $row) {
+            $key = array_search($row->date, array_column($result, 'date'));
+            $result[$key]['count'] = $row->count;
+        }
+        return $result;
     }
 
     public function user(): BelongsTo
